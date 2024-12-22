@@ -1,7 +1,7 @@
 #include "types.h"
 #include "riscv.h"
-#include "defs.h"
 #include "param.h"
+#include "defs.h"
 #include "memlayout.h"
 #include "spinlock.h"
 #include "proc.h"
@@ -54,6 +54,7 @@ sys_sleep(void)
   int n;
   uint ticks0;
 
+
   argint(0, &n);
   if(n < 0)
     n = 0;
@@ -69,6 +70,37 @@ sys_sleep(void)
   release(&tickslock);
   return 0;
 }
+
+
+#ifdef LAB_PGTBL
+int
+sys_pgpte(void)
+{
+  uint64 va;
+  struct proc *p;  
+
+  p = myproc();
+  argaddr(0, &va);
+  pte_t *pte = pgpte(p->pagetable, va);
+  if(pte != 0) {
+      return (uint64) *pte;
+  }
+  return 0;
+}
+#endif
+
+#ifdef LAB_PGTBL
+int
+sys_kpgtbl(void)
+{
+  struct proc *p;  
+
+  p = myproc();
+  vmprint(p->pagetable);
+  return 0;
+}
+#endif
+
 
 uint64
 sys_kill(void)
@@ -90,17 +122,4 @@ sys_uptime(void)
   xticks = ticks;
   release(&tickslock);
   return xticks;
-}
-
-uint64
-sys_trace(void)
-{
-  int trace_mask;
-  argint(0, &trace_mask);
-  if(trace_mask < 0)
-    return -1;
-
-  struct proc *p = myproc();
-  p->tracemask = trace_mask;
-  return 0;
 }
