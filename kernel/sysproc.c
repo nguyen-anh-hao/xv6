@@ -101,8 +101,11 @@ int sys_pgaccess(void) {
         pte_t *pte = walk(curr_proc->pagetable, curr_va, 0);
 
         if (pte && (*pte & PTE_A)) { // Nếu bit PTE_A được bật (trang đã được truy cập)
+            printf("Page 0x%ld: Accessed\n", curr_va);
             bitmask |= bit_position; // Đánh dấu trạng thái của trang trong bitmask
             *pte &= ~PTE_A;          // Xóa bit PTE_A để ghi nhận trạng thái mới
+        } else {
+            printf("Page 0x%ld: Not accessed\n", curr_va);
         }
 
         bit_position <<= 1; // Dịch vị trí bit sang trái cho trang tiếp theo

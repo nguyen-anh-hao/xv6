@@ -249,6 +249,8 @@ endif
 ifeq ($(LAB),pgtbl)
 UPROGS += \
 	$U/_pgtbltest
+UPROGS += \
+	$U/_pgaccess_test
 endif
 
 ifeq ($(LAB),lock)
