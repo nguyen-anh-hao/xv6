@@ -194,10 +194,8 @@ UPROGS=\
 	$U/_grind\
 	$U/_wc\
 	$U/_zombie\
-	$U/_pingpong\
-	$U/_primes\
-	$U/_find\
-	$U/_xargs\
+	$U/_syscalltest\
+	$U/_pgtbltest\
 
 
 
@@ -251,6 +249,8 @@ endif
 ifeq ($(LAB),pgtbl)
 UPROGS += \
 	$U/_pgtbltest
+UPROGS += \
+	$U/_pgaccess_test
 endif
 
 ifeq ($(LAB),lock)
