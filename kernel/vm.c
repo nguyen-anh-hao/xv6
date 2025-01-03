@@ -503,7 +503,7 @@ vmprint_recursive(pagetable_t pagetable, int level)
             // In thông tin của mục PTE tại cấp độ hiện tại
             for (int j = 2; j >= level; j--)
                 printf(" ..");  // In dấu ".." để biểu thị cấp độ của mục trong cây bảng trang
-            printf("%d: pte %ld pa %ld\n", i, pte, PTE2PA(pte)); 
+            printf("%d: pte %p pa %p\n", i, (void *)pte, (void *)PTE2PA(pte));
             // i: chỉ số PTE
             // pte: giá trị PTE
             // PTE2PA(pte): địa chỉ vật lý được ánh xạ từ mục PTE
