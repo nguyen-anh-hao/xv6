@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
     } else {
         close(initial_pipe_fd[0]);  // Close the read end of the initial pipe in the parent process
         // Write numbers from 2 to 35 to the initial pipe
-        for (int i = 2; i <= 35; i++) {
+        for (int i = 2; i <= 280; i++) {
             write(initial_pipe_fd[1], &i, sizeof(i));
         }
         close(initial_pipe_fd[1]);  // Close the write end of the initial pipe

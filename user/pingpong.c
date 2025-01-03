@@ -46,7 +46,7 @@ int main() {
         exit(0);
     } else {
         // Tiến trình cha
-        // Đóng đầu đọc của pipe gửi từ con
+        // Đóng đầu ghi của pipe gửi từ con
         close(pipe2[1]);
         // Đóng đầu đọc của pipe gửi từ cha
         close(pipe1[0]);
