@@ -29,17 +29,20 @@ find(char *path, char *targetname)
 		printf("%s\n", path);
 	}
 
+	// Mở thư mục
 	if ((fd = open(path, O_RDONLY)) < 0) {
 		fprintf(2, "find: cannot open [%s], fd=%d\n", path, fd);
 		return;
 	}
 
+	// Lấy thông tin về thư mục
 	if (fstat(fd, &st) < 0) {
 		fprintf(2, "find: cannot stat %s\n", path);
 		close(fd);
 		return;
 	}
 
+	// Nếu không phải là thư mục, dừng lại
 	if (st.type != T_DIR) {
 		close(fd);
 		return;
@@ -52,16 +55,21 @@ find(char *path, char *targetname)
 		close(fd);
 		return;
 	}
+
+	// Đọc từng entry trong thư mục
 	strcpy(buf, path);
 	p = buf+strlen(buf);
 	*p++ = '/';
 	while (read(fd, &de, sizeof(de)) == sizeof(de)) {
+		// Entry khong hop le thi bo qua
 		if (de.inum == 0)
 			continue;
+
+		// Xây dựng đường dẫn đầy đủ
 		memmove(p, de.name, DIRSIZ);
 		p[DIRSIZ] = 0;
 		
-		if (!strcmp(de.name, ".") || !strcmp(de.name, ".."))
+		if (!strcmp(de.name, ".") || !strcmp(de.name, "..")) // Bỏ qua "." và ".."
 			continue;
 
 		find(buf, targetname);
